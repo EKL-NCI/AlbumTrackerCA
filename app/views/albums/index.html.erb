@@ -3,6 +3,7 @@
 <% content_for :title, "Albums" %>
 
 <h1>Albums</h1>
+<p>Total albums: <%= @albums.count %></p>
 
 <div id="albums">
   <% @albums.each do |album| %>

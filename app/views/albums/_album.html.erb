@@ -21,7 +21,7 @@
 
   <p>
     <strong>Rating:</strong>
-    <%= star_rating(album.rating).html_safe %>
+    <%= h(star_rating(album.rating)) %>
   </p>
 
   <p>

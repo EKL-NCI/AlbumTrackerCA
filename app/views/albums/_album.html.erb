@@ -21,12 +21,16 @@
 
   <p>
     <strong>Rating:</strong>
-    <%= album.rating %>
+    <%= star_rating(album.rating).html_safe %>
   </p>
 
   <p>
     <strong>Availability:</strong>
-    <%= album.availability %>
+    <% if album.availability %>
+      <span class="badge bg-success">Available</span>
+    <% else %>
+      <span class="badge bg-danger">Unavailable</span>
+    <% end %>
   </p>
 
 </div>

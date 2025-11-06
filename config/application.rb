@@ -14,6 +14,5 @@ module AlbumTrackCa
 
     # Use MiniMagick for Active Storage variants
     config.active_storage.variant_processor = :mini_magick
-
   end
 end

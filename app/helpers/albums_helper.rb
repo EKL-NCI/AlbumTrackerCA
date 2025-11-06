@@ -9,7 +9,7 @@ module AlbumsHelper
   def display_cover(album, size: "100x100")
     width, height = size.split("x").map(&:to_i)
     if album.cover_image.attached?
-      image_tag album.cover_image.variant(resize_to_fill: [width, height]).processed,
+      image_tag album.cover_image.variant(resize_to_fill: [ width, height ]).processed,
                 class: "rounded shadow-sm", alt: album.title
     else
       image_tag "generic-album.png",

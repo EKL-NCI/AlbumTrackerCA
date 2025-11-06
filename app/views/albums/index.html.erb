@@ -2,6 +2,7 @@
   <thead class="table-dark">
   <h1 class="mb-4">Albums</h1>
     <tr>
+      <th>Cover</th>
       <th>Title</th>
       <th>Artist</th>
       <th>Year</th>
@@ -14,6 +15,7 @@
   <tbody>
     <% @albums.each do |album| %>
       <tr>
+        <td><%= display_cover(album, size: "80x80") %></td>
         <td><%= album.title %></td>
         <td><%= album.artist %></td>
         <td><%= album.release_year %></td>

@@ -1,4 +1,13 @@
 <div id="<%= dom_id album %>">
+  <!-- Album cover -->
+  <div class="mb-3 text-center">
+    <% if album.cover_image.attached? %>
+      <%= image_tag album.cover_image, class: "img-fluid rounded shadow-sm", alt: album.title, style: "max-height: 300px;" %>
+    <% else %>
+      <%= image_tag "generic-album.png", class: "img-fluid rounded shadow-sm", alt: "Generic Album Cover", style: "max-height: 300px;" %>
+    <% end %>
+  </div>
+
   <p>
     <strong>Title:</strong>
     <%= album.title %>
@@ -32,5 +41,4 @@
       <span class="badge bg-danger">Unavailable</span>
     <% end %>
   </p>
-
 </div>

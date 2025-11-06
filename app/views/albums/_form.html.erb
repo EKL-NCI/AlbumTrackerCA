@@ -32,12 +32,17 @@
 
   <div class="mb-3">
     <%= form.label :rating, class: "form-label" %>
-    <%= form.number_field :rating, class: "form-control", min: 1, max: 5 %>
+    <%= form.number_field :rating, class: "form-control", min: 0, max: 5 %>
   </div>
 
   <div class="form-check mb-3">
     <%= form.check_box :availability, class: "form-check-input" %>
     <%= form.label :availability, class: "form-check-label" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :cover_image, "Cover Image", class: "form-label" %>
+    <%= form.file_field :cover_image, class: "form-control" %>
   </div>
 
   <%= form.submit class: "btn btn-primary" %>

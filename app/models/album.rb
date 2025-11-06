@@ -1,4 +1,7 @@
 class Album < ApplicationRecord
+  # Attach cover image using Active Storage
+  has_one_attached :cover_image
+
   # Ensure these fields are filled in
   validates :title, presence: true
   validates :artist, presence: true

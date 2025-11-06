@@ -58,13 +58,14 @@ class AlbumsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_album
-      @album = Album.find(params.expect(:id))
+      @album = Album.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def album_params
-      params.expect(album: [ :title, :artist, :release_year, :genre, :rating, :availability ])
+      params.require(:album).permit(:title, :artist, :release_year, :genre, :rating, :availability)
     end
 end

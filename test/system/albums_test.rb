@@ -12,7 +12,7 @@ class AlbumsTest < ApplicationSystemTestCase
 
   test "should create album" do
     visit albums_url
-    click_on "New album"
+    click_on "Add New"
 
     fill_in "Artist", with: @album.artist
     check "Availability" if @album.availability

@@ -3,7 +3,12 @@ class AlbumsController < ApplicationController
 
   # GET /albums or /albums.json
   def index
-    @albums = Album.all
+    if params[:q].present?
+      query = params[:q].downcase
+      @albums = Album.where("LOWER(title) LIKE ? OR LOWER(artist) LIKE ?", "%#{query}%", "%#{query}%")
+    else
+      @albums = Album.all
+    end
   end
 
   # GET /albums/1 or /albums/1.json

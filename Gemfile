@@ -21,6 +21,9 @@ gem "jbuilder"
 gem "image_processing", "~> 1.12"
 gem "mini_magick"
 
+# Use Ransack for search forms [https://github.com/activerecord-hackery/ransack]
+gem "ransack"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 

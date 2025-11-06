@@ -66,6 +66,6 @@ class AlbumsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def album_params
-      params.require(:album).permit(:title, :artist, :release_year, :genre, :rating, :availability)
+      params.require(:album).permit(:title, :artist, :release_year, :genre, :rating, :availability, :cover_image)
     end
 end

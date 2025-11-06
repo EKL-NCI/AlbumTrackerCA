@@ -6,21 +6,16 @@ module AlbumsHelper
     (full_stars + empty_stars).html_safe
   end
 
-  def display_cover(album, size: nil)
+  def display_cover(album, size: "100x100")
+    width, height = size.split("x").map(&:to_i)
     if album.cover_image.attached?
-      if size
-        width, height = size.split("x").map(&:to_i)
-        image_tag album.cover_image.variant(resize_to_limit: [ width, height ]), class: "img-thumbnail", alt: album.title
-      else
-        image_tag album.cover_image, class: "img-fluid rounded shadow-sm", alt: album.title, style: "max-height: 300px;"
-      end
+      image_tag album.cover_image.variant(resize_to_fill: [width, height]).processed,
+                class: "rounded shadow-sm", alt: album.title
     else
-      if size
-        width, height = size.split("x").map(&:to_i)
-        image_tag "generic-album.png", class: "img-thumbnail", style: "width: #{width}px; height: #{height}px;", alt: "Generic Album Cover"
-      else
-        image_tag "generic-album.png", class: "img-fluid rounded shadow-sm", alt: "Generic Album Cover", style: "max-height: 300px;"
-      end
+      image_tag "generic-album.png",
+                class: "rounded shadow-sm",
+                style: "width: #{width}px; height: #{height}px; object-fit: cover;",
+                alt: "Generic Album Cover"
     end
   end
 end

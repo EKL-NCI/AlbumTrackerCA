@@ -15,7 +15,11 @@
   <tbody>
     <% @albums.each do |album| %>
       <tr>
-        <td><%= display_cover(album, size: "80x80") %></td>
+        <td>
+          <div class="mb-3 text-center">
+            <%= display_cover(album, size: "100x100") %>
+          </div>
+        </td>
         <td><%= album.title %></td>
         <td><%= album.artist %></td>
         <td><%= album.release_year %></td>

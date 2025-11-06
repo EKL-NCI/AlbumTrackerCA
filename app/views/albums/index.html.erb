@@ -1,19 +1,36 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Albums" %>
-
-<h1>Albums</h1>
-<p>Total albums: <%= @albums.count %></p>
-<%= link_to "New album", new_album_path, class: "btn btn-success mb-3" %>
-<br><br>
-
-<div id="albums">
-  <% @albums.each do |album| %>
-    <%= render album %>
-    <p>
-      <%= link_to "Show this album", album %>
-    </p>
-  <% end %>
-</div>
-
-
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Year</th>
+      <th>Genre</th>
+      <th>Rating</th>
+      <th>Availability</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @albums.each do |album| %>
+      <tr>
+        <td><%= album.title %></td>
+        <td><%= album.artist %></td>
+        <td><%= album.release_year %></td>
+        <td><%= album.genre %></td>
+        <td><%= album.rating %></td>
+        <td>
+          <% if album.availability %>
+            <span class="badge bg-success">Available</span>
+          <% else %>
+            <span class="badge bg-danger">Unavailable</span>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "Show", album_path(album), class: "btn btn-sm btn-primary" %>
+          <%= link_to "Edit", edit_album_path(album), class: "btn btn-sm btn-warning" %>
+          <%= link_to "Destroy", album_path(album), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

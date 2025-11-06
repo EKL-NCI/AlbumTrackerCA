@@ -1,47 +1,44 @@
-<%= form_with(model: album) do |form| %>
+<%= form_with(model: album, local: true) do |form| %>
   <% if album.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(album.errors.count, "error") %> prohibited this album from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h4><%= pluralize(album.errors.count, "error") %> prohibited this album from being saved:</h4>
       <ul>
-        <% album.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% album.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :artist, style: "display: block" %>
-    <%= form.text_field :artist %>
+  <div class="mb-3">
+    <%= form.label :artist, class: "form-label" %>
+    <%= form.text_field :artist, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :release_year, style: "display: block" %>
-    <%= form.number_field :release_year %>
+  <div class="mb-3">
+    <%= form.label :release_year, class: "form-label" %>
+    <%= form.number_field :release_year, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :genre, style: "display: block" %>
-    <%= form.text_field :genre %>
+  <div class="mb-3">
+    <%= form.label :genre, class: "form-label" %>
+    <%= form.text_field :genre, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :rating, style: "display: block" %>
-    <%= form.number_field :rating %>
+  <div class="mb-3">
+    <%= form.label :rating, class: "form-label" %>
+    <%= form.number_field :rating, class: "form-control", min: 1, max: 5 %>
   </div>
 
-  <div>
-    <%= form.label :availability, style: "display: block" %>
-    <%= form.checkbox :availability %>
+  <div class="form-check mb-3">
+    <%= form.check_box :availability, class: "form-check-input" %>
+    <%= form.label :availability, class: "form-check-label" %>
   </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+  <%= form.submit class: "btn btn-primary" %>
 <% end %>

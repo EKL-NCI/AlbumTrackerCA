@@ -5,11 +5,12 @@ module AlbumsHelper
     empty_stars = "&#9734;" * (5 - rating)
     (full_stars + empty_stars).html_safe
   end
+
   def display_cover(album, size: nil)
     if album.cover_image.attached?
       if size
         width, height = size.split("x").map(&:to_i)
-        image_tag album.cover_image.variant(resize_to_limit: [width, height]), class: "img-thumbnail", alt: album.title
+        image_tag album.cover_image.variant(resize_to_limit: [ width, height ]), class: "img-thumbnail", alt: album.title
       else
         image_tag album.cover_image, class: "img-fluid rounded shadow-sm", alt: album.title, style: "max-height: 300px;"
       end

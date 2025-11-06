@@ -20,6 +20,6 @@ class Album < ApplicationRecord
               less_than_or_equal_to: 5
             }
 
-  # Example for a boolean field
-  validates :availability, inclusion: { in: [true, false] }
+  # Boolean field must be true or false
+  validates :availability, inclusion: { in: [ true, false ] }
 end

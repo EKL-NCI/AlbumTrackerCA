@@ -20,7 +20,7 @@ class AlbumsController < ApplicationController
     @album = Album.new
   end
 
-  # GET /albums/1/edit
+  # GET /albums/1/edit test
   def edit
   end
 

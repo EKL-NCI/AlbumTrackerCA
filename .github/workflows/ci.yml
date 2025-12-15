@@ -85,10 +85,8 @@ jobs:
           bundler-cache: true
 
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
-
-      - name: Set database config
-        run: cp config/database.yml.github_actions config/database.yml
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y \
+          build-essential git libyaml-dev pkg-config google-chrome-stable
 
       - name: Install gems
         run: bundle install --jobs 4 --retry 3

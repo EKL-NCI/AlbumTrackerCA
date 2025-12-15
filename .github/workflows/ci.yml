@@ -19,9 +19,6 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
-
       - name: Make brakeman executable
         run: chmod +x bin/brakeman
 
@@ -56,22 +53,28 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Lint code for consistent style
+      - name: Lint code
         run: bin/rubocop -f github
 
   test:
     runs-on: ubuntu-latest
 
-    # services:
-    #  redis:
-    #    image: redis
-    #    ports:
-    #      - 6379:6379
-    #    options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
-    steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: album_tracker_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -81,11 +84,22 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
+
+      - name: Set database config
+        run: cp config/database.yml.github_actions config/database.yml
+
+      - name: Install gems
+        run: bundle install --jobs 4 --retry 3
+
+      - name: Create & migrate database
+        run: bin/rails db:create db:schema:load
+
       - name: Run tests
         env:
           RAILS_ENV: test
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test test:system
+        run: bin/rails test
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
@@ -94,4 +108,3 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
-

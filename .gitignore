@@ -32,3 +32,17 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Python / Flask
+venv/
+__pycache__/
+*.pyc
+
+# IDE / Editor
+.idea/
+*.iml
+*.vscode/
+
+# System files
+.DS_Store
+*.swp

@@ -3,20 +3,11 @@ require "test_helper"
 class ApiAlbumsTest < ActionDispatch::IntegrationTest
   setup do
     @album = albums(:one)
-
-    @valid_params = {
-      title: "Test Album",
-      artist: "Test Artist",
-      release_year: 2023,
-      genre: "Pop",
-      rating: 4,
-      availability: true
-    }
   end
 
   # Index/Home
   test "should list albums" do
-    get "/api/albums"
+    get api_albums_url
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -26,7 +17,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
 
   # Show
   test "should show album" do
-    get "/api/albums/#{@album.id}"
+    get api_album_url(@album)
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -54,9 +45,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
 
   # Update
   test "should update album" do
-    album = albums(:one)
-
-    patch api_album_url(album), params: {
+    patch api_album_url(@album), params: {
       album: {
         title: "Updated Title",
         artist: "Updated Artist",
@@ -66,17 +55,14 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
         availability: true
       }
     }
-
     assert_response :success
-    assert_equal "Updated Title", album.reload.title
+    assert_equal "Updated Title", @album.reload.title
   end
 
-  # Delete
   test "should destroy album" do
     assert_difference("Album.count", -1) do
-      delete "/api/albums/#{@album.id}"
+      delete api_album_url(@album)
     end
-
     assert_response :no_content
   end
 end

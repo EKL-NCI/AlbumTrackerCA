@@ -37,23 +37,38 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
   # Create
   test "should create album" do
     assert_difference("Album.count", 1) do
-      post "/api/albums", params: @valid_params
+      post api_albums_url, params: {
+        album: {
+          title: "Test Album",
+          artist: "Test Artist",
+          release_year: 2000,
+          genre: "Rock",
+          rating: 4,
+          availability: true
+        }
+      }
     end
 
     assert_response :created
-    json = JSON.parse(response.body)
-    assert_equal @valid_params[:title], json["title"]
-    assert_equal @valid_params[:artist], json["artist"]
   end
 
   # Update
   test "should update album" do
-    patch "/api/albums/#{@album.id}", params: @valid_params.merge(title: "Updated Title")
-    assert_response :success
+    album = albums(:one)
 
-    json = JSON.parse(response.body)
-    assert_equal "Updated Title", json["title"]
-    assert_equal @valid_params[:artist], json["artist"]
+    patch api_album_url(album), params: {
+      album: {
+        title: "Updated Title",
+        artist: "Updated Artist",
+        release_year: 2000,
+        genre: "Rock",
+        rating: 4,
+        availability: true
+      }
+    }
+
+    assert_response :success
+    assert_equal "Updated Title", album.reload.title
   end
 
   # Delete

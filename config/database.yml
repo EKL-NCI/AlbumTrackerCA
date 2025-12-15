@@ -17,6 +17,4 @@ test:
 
 production:
   <<: *default
-  database: albumtrackca_production
-  username: <%= ENV["PG_USERNAME"] %>
-  password: <%= ENV["PG_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>

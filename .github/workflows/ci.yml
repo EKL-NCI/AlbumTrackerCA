@@ -43,6 +43,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -85,15 +86,21 @@ jobs:
           bundler-cache: true
 
       - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config google-chrome-stable
-
-      - name: Set database config
-        run: cp config/database.yml.github_actions config/database.yml
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            build-essential \
+            git \
+            libyaml-dev \
+            pkg-config \
+            google-chrome-stable
 
       - name: Install gems
         run: bundle install --jobs 4 --retry 3
 
-      - name: Create & migrate database
+      - name: Prepare database
+        env:
+          RAILS_ENV: test
         run: bin/rails db:create db:schema:load
 
       - name: Run tests
@@ -106,5 +113,5 @@ jobs:
         if: failure()
         with:
           name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
+          path: tmp/screenshots
           if-no-files-found: ignore

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">{{ album.title }}</h1>
+
+<div class="mb-3 text-center">
+  {% if album.cover_image_url %}
+    <img src="{{ album.cover_image_url }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+  {% else %}
+    <img src="{{ url_for('static', filename='generic-album.png') }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+  {% endif %}
+</div>
+
+<p><strong>Title:</strong> {{ album.title }}</p>
+<p><strong>Artist:</strong> {{ album.artist }}</p>
+<p><strong>Release Year:</strong> {{ album.release_year }}</p>
+<p><strong>Genre:</strong> {{ album.genre }}</p>
+<p><strong>Rating:</strong> {{ album.star_rating }}</p>
+<p><strong>Availability:</strong>
+  {% if album.availability %}
+    <span class="badge bg-success">Available</span>
+  {% else %}
+    <span class="badge bg-danger">Unavailable</span>
+  {% endif %}
+</p>
+
+<div class="mt-3">
+  <a href="/albums/{{ album.id }}/edit" class="btn btn-warning">Edit this album</a>
+  <a href="/albums" class="btn btn-secondary">Back to albums</a>
+  <form action="/albums/{{ album.id }}/delete" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Destroy this album</button>
+  </form>
+</div>
+{% endblock %}

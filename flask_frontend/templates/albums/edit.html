@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit Album</h1>
+{% set form_action = url_for('albums_update', album_id=album.id) %}
+{% include "albums/form.html" %}
+<a href="{{ url_for('albums_show', album_id=album.id) }}" class="btn btn-secondary mt-3">Show</a>
+<a href="{{ url_for('albums_index') }}" class="btn btn-secondary mt-3">Back</a>
+{% endblock %}

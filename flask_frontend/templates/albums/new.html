@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>New Album</h1>
+{% set form_action = url_for('albums_create') %}
+{% include "albums/form.html" %}
+<a href="{{ url_for('albums_index') }}" class="btn btn-secondary mt-3">Back</a>
+{% endblock %}

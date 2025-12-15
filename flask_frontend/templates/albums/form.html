@@ -1,0 +1,38 @@
+<form method="post" action="{{ form_action }}" enctype="multipart/form-data">
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input type="text" name="title" class="form-control" value="{{ album.title | default('') }}">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Artist</label>
+    <input type="text" name="artist" class="form-control" value="{{ album.artist | default('') }}">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Release Year</label>
+    <input type="number" name="release_year" class="form-control" value="{{ album.release_year | default('') }}">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Genre</label>
+    <input type="text" name="genre" class="form-control" value="{{ album.genre | default('') }}">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Rating</label>
+    <input type="number" name="rating" min="0" max="5" class="form-control" value="{{ album.rating | default('0') }}">
+  </div>
+
+  <div class="form-check mb-3">
+    <input type="checkbox" name="availability" class="form-check-input" {% if album.availability %}checked{% endif %}>
+    <label class="form-check-label">Available</label>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Cover Image</label>
+    <input type="file" name="cover_image" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

@@ -1,10 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  username: postgres
-  password: 1234
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
+  username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", "1234") %>
+  port: <%= ENV.fetch("POSTGRES_PORT", 5432) %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
 
 development:
   <<: *default
@@ -12,10 +13,10 @@ development:
 
 test:
   <<: *default
-  database: albumtrackca_test
+  database: <%= ENV.fetch("POSTGRES_DB", "albumtrackca_test") %>
 
 production:
   <<: *default
   database: albumtrackca_production
-  username: <%= ENV['PG_USERNAME'] %>
-  password: <%= ENV['PG_PASSWORD'] %>
+  username: <%= ENV["PG_USERNAME"] %>
+  password: <%= ENV["PG_PASSWORD"] %>

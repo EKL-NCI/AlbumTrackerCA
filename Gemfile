@@ -47,6 +47,9 @@ gem "thruster", require: false
 # PostGreSQL
 gem "pg", "~> 1.6"
 
+# Handle Cross-Origin Resource Sharing (CORS)
+gem "rack-cors"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

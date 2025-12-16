@@ -4,7 +4,7 @@
 
 <div class="mb-3 text-center">
   {% if album.cover_image_url %}
-    <img src="{{ album.cover_image_url }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+    <img src="{{ album.cover_image_url or url_for('static', filename='generic-album.png') }}" class="img-fluid">
   {% else %}
     <img src="{{ url_for('static', filename='generic-album.png') }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
   {% endif %}

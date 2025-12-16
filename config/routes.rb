@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
+  rails_blob_routes
+
   namespace :api do
     resources :albums
-  end
-
-  direct :rails_blob do |blob, options|
-    route_for(:rails_blob, blob, options)
   end
 
   root to: "api/albums#index"

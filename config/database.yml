@@ -1,4 +1,5 @@
 # Database configuration for a Ruby on Rails application using PostgreSQL
+# test
 default: &default
   adapter: postgresql
   encoding: unicode

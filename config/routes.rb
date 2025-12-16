@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  rails_blob_routes
+
   namespace :api do
     resources :albums
   end

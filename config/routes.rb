@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # API routes
   namespace :api do
     resources :albums
     post "login", to: "sessions#create"

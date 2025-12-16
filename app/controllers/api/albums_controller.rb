@@ -3,6 +3,7 @@ module Api
     skip_before_action :verify_authenticity_token
     before_action :set_album, only: %i[show update destroy]
 
+    # Authenticate all requests
     # Only admins can create, update, destroy
     before_action :authorize_admin!, only: %i[create update destroy]
 

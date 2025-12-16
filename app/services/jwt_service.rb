@@ -1,4 +1,5 @@
 class JwtService
+  # Jwt Secret Key
   HMAC_SECRET = "HMACSecretKey"
 
   def self.encode(payload)

@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  # API routes
   namespace :api do
+    # Authentication
+    post 'auth/register', to: 'auth#register'
+    post 'auth/login', to: 'auth#login'
+    
+    # Albums
     resources :albums
-    post "login", to: "sessions#create"
   end
 
   root to: "api/albums#index"

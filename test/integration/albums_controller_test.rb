@@ -3,11 +3,21 @@ require "test_helper"
 class ApiAlbumsTest < ActionDispatch::IntegrationTest
   setup do
     @album = albums(:one)
+
+    # Common valid params
+    @valid_params = {
+      title: "Test Album",
+      artist: "Test Artist",
+      release_year: 2023,
+      genre: "Pop",
+      rating: 4,
+      availability: true
+    }
   end
 
   # Index/Home
   test "should list albums" do
-    get api_albums_url
+    get "/api/albums"
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -17,7 +27,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
 
   # Show
   test "should show album" do
-    get api_album_url(@album)
+    get "/api/albums/#{@album.id}"
     assert_response :success
 
     json = JSON.parse(response.body)
@@ -28,16 +38,18 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
   # Create
   test "should create album" do
     assert_difference("Album.count", 1) do
-      post api_albums_url, params: {
-        album: {
-          title: "Test Album",
-          artist: "Test Artist",
-          release_year: 2000,
-          genre: "Rock",
-          rating: 4,
-          availability: true
-        }
-      }
+      post api_albums_url, 
+        params: {
+          album: {
+            title: "Test Album",
+            artist: "Test Artist",
+            release_year: 2000,
+            genre: "Rock",
+            rating: 4,
+            availability: true
+          }
+        },
+        as: :json
     end
 
     assert_response :created
@@ -45,24 +57,31 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
 
   # Update
   test "should update album" do
-    patch api_album_url(@album), params: {
-      album: {
-        title: "Updated Title",
-        artist: "Updated Artist",
-        release_year: 2000,
-        genre: "Rock",
-        rating: 4,
-        availability: true
-      }
-    }
+    album = albums(:one)
+
+    patch api_album_url(album),
+      params: {
+        album: {
+          title: "Updated Title",
+          artist: album.artist,
+          release_year: album.release_year,
+          genre: album.genre,
+          rating: album.rating,
+          availability: album.availability
+        }
+      },
+      as: :json
+
     assert_response :success
-    assert_equal "Updated Title", @album.reload.title
+    assert_equal "Updated Title", album.reload.title
   end
 
+  # Delete
   test "should destroy album" do
     assert_difference("Album.count", -1) do
-      delete api_album_url(@album)
+      delete "/api/albums/#{@album.id}"
     end
+
     assert_response :no_content
   end
 end

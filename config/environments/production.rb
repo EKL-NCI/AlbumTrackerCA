@@ -12,6 +12,15 @@ Rails.application.configure do
   # Full error reports are disabled.
   config.consider_all_requests_local = false
 
+  # Use the persistent disk for ActiveStorage
+  config.active_storage.service = :local_persistent
+
+  # Serve static files if Render enables it
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.headers = {
+    "Cache-Control" => "public, max-age=#{1.year.to_i}"
+  }
+
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
 

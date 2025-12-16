@@ -1,5 +1,6 @@
 module Api
   class AuthController < ::ApplicationController
+    # Test
     skip_before_action :verify_authenticity_token
 
     # POST /api/auth/register

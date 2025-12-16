@@ -2,9 +2,7 @@ module Api
   class AlbumsController < ::ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_album, only: %i[show update destroy]
-
-    # Authenticate all requests
-    # Only admins can create, update, destroy
+    before_action :authenticate_user!, only: %i[create update destroy]
     before_action :authorize_admin!, only: %i[create update destroy]
 
     # GET /api/albums
@@ -55,10 +53,26 @@ module Api
       @album = Album.find(params[:id])
     end
 
-    # Placeholder authorization - allows all requests through
+    # Authenticate user via JWT token
+    def authenticate_user!
+      token = request.headers["Authorization"]&.split(" ")&.last
+
+      if token
+        payload = JwtService.decode(token)
+        if payload
+          @current_user = User.find_by(id: payload[:user_id])
+          return if @current_user
+        end
+      end
+
+      render json: { error: "Unauthorized - please log in" }, status: :unauthorized
+    end
+
+    # Check if current user is an admin
     def authorize_admin!
-      # Add real auth check here when needed (e.g., API key validation)
-      true
+      unless @current_user&.role == "admin"
+        render json: { error: "Forbidden - admin access required" }, status: :forbidden
+      end
     end
 
     def album_params

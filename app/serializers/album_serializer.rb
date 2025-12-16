@@ -30,16 +30,11 @@ class AlbumSerializer
 
   def cover_image_url
     return nil unless @album.cover_image.attached?
-    rails_blob_url(@album.cover_image, host: HOST)
+    rails_blob_url(@album.cover_image, host: HOST, protocol: "https")
   end
 
   def cover_thumbnail_url
     return nil unless @album.cover_image.attached?
-    rails_representation_url(
-      @album.cover_image.variant(resize_to_limit: [ 100, 100 ]).processed,
-      host: HOST
-    )
-  rescue
     cover_image_url
   end
 end

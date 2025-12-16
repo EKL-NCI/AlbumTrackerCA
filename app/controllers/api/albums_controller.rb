@@ -2,7 +2,7 @@ module Api
   class AlbumsController < ::ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_album, only: %i[show update destroy]
-    
+
     # Skip auth in test environment
     unless Rails.env.test?
       before_action :authenticate_user!, only: %i[create update destroy]

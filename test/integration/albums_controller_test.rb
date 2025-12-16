@@ -38,7 +38,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
   # Create
   test "should create album" do
     assert_difference("Album.count", 1) do
-      post api_albums_url, 
+      post api_albums_url,
         params: {
           album: {
             title: "Test Album",
@@ -64,7 +64,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
         album: {
           title: "Updated Title",
           artist: album.artist,
-          release_year: album.release_year,
+          release_year: 2000,
           genre: album.genre,
           rating: album.rating,
           availability: album.availability

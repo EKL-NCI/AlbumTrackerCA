@@ -1,5 +1,5 @@
 module Api
-  class AlbumsController < ApplicationController
+  class AlbumsController < ::ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_album, only: %i[show update destroy]
 
@@ -53,6 +53,12 @@ module Api
 
     def set_album
       @album = Album.find(params[:id])
+    end
+
+    # Placeholder authorization - allows all requests through
+    def authorize_admin!
+      # Add real auth check here when needed (e.g., API key validation)
+      true
     end
 
     def album_params

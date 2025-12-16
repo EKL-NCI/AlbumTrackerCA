@@ -1,22 +1,22 @@
 module Api
-  class AlbumsController < ::ApplicationController
+  class AlbumsController < ApplicationController
     skip_before_action :verify_authenticity_token
     before_action :set_album, only: %i[show update destroy]
-
-    # Skip auth in test environment
-    unless Rails.env.test?
-      before_action :authenticate_user!, only: %i[create update destroy]
-      before_action :authorize_admin!, only: %i[create update destroy]
-    end
+    before_action :authenticate_user!, only: %i[create update destroy]
+    before_action :authorize_admin!, only: %i[create update destroy]
 
     # GET /api/albums
     def index
-      albums = if params[:q].present?
-        query = params[:q].downcase
-        Album.where("LOWER(title) LIKE ? OR LOWER(artist) LIKE ?", "%#{query}%", "%#{query}%")
-      else
-        Album.all
-      end
+      albums =
+        if params[:q].present?
+          q = params[:q].downcase
+          Album.where(
+            "LOWER(title) LIKE ? OR LOWER(artist) LIKE ?",
+            "%#{q}%", "%#{q}%"
+          )
+        else
+          Album.all
+        end
 
       render json: albums.map { |a| AlbumSerializer.new(a).as_json }
     end
@@ -47,7 +47,7 @@ module Api
 
     # DELETE /api/albums/:id
     def destroy
-      @album.destroy!
+      @album.destroy
       head :no_content
     end
 
@@ -57,33 +57,15 @@ module Api
       @album = Album.find(params[:id])
     end
 
-    # Authenticate user via JWT token
-    def authenticate_user!
-      # Rails tests use HTTP_AUTHORIZATION, production uses Authorization
-      auth_header = request.headers["Authorization"] || request.headers["HTTP_AUTHORIZATION"]
-      token = auth_header&.split(" ")&.last
-
-      if token
-        payload = JwtService.decode(token)
-        if payload
-          @current_user = User.find_by(id: payload[:user_id])
-          return if @current_user
-        end
-      end
-
-      render json: { error: "Unauthorized - please log in" }, status: :unauthorized
-    end
-
-    # Check if current user is an admin
-    def authorize_admin!
-      unless @current_user&.role == "admin"
-        render json: { error: "Forbidden - admin access required" }, status: :forbidden
-      end
-    end
-
     def album_params
       params.require(:album).permit(
-        :title, :artist, :release_year, :genre, :rating, :availability, :cover_image
+        :title,
+        :artist,
+        :release_year,
+        :genre,
+        :rating,
+        :availability,
+        :cover_image
       )
     end
   end

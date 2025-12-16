@@ -1,17 +1,26 @@
 module Api
-  class AuthController < ::ApplicationController
-    # Test
+  class AuthController < ApplicationController
     skip_before_action :verify_authenticity_token
 
     # POST /api/auth/register
     def register
       user = User.new(user_params)
+      user.role ||= "user"
 
       if user.save
-        token = JwtService.encode(user_id: user.id, email: user.email, role: user.role)
+        token = JwtService.encode(
+          user_id: user.id,
+          email: user.email,
+          role: user.role
+        )
+
         render json: {
           token: token,
-          user: { id: user.id, email: user.email, role: user.role }
+          user: {
+            id: user.id,
+            email: user.email,
+            role: user.role
+          }
         }, status: :created
       else
         render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
@@ -23,10 +32,19 @@ module Api
       user = User.find_by(email: params[:email])
 
       if user&.authenticate(params[:password])
-        token = JwtService.encode(user_id: user.id, email: user.email, role: user.role)
+        token = JwtService.encode(
+          user_id: user.id,
+          email: user.email,
+          role: user.role
+        )
+
         render json: {
           token: token,
-          user: { id: user.id, email: user.email, role: user.role }
+          user: {
+            id: user.id,
+            email: user.email,
+            role: user.role
+          }
         }
       else
         render json: { error: "Invalid email or password" }, status: :unauthorized
@@ -36,7 +54,8 @@ module Api
     private
 
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.require(:user)
+            .permit(:email, :password, :password_confirmation)
     end
   end
 end

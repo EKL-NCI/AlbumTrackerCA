@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, Response, abort
 import requests
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.secret_key = "SECRET_KEY"
 
-RAILS_API = "http://localhost:3000/api/albums"
+RAILS_API = "https://albumtrackerca.onrender.com/api/albums"
+API_ORIGIN = f"{urlparse(RAILS_API).scheme}://{urlparse(RAILS_API).hostname}"
 
 @app.route("/")
 def root():

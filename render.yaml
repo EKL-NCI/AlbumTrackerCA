@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: album-track-ca
+    runtime: ruby
+    plan: free
+    buildCommand: "bundle install && bundle exec rake assets:precompile"
+    startCommand: "bundle exec puma -t 5:5 -w 1 -b unix:///var/run/puma.sock --pidfile /var/run/puma.pid"
+    envVars:
+      - key: DATABASE_URL
+        scope: build,runtime
+      - key: RAILS_ENV
+        value: production
+      - key: JWT_SECRET_KEY
+        scope: runtime
+      - key: STORAGE_PATH
+        value: /var/data/storage
+        scope: runtime
+    preDeployCommand: "bundle exec rails db:migrate && bundle exec rails db:seed"

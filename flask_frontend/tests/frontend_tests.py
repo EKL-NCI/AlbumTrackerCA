@@ -1,7 +1,7 @@
 import unittest
 import requests
 
-BASE_URL = "http://127.0.0.1:3000/api/albums"
+BASE_URL = "https://albumtrackerca.onrender.com/api/albums"
 
 class FlaskFrontendTestCase(unittest.TestCase):
     def setUp(self):

@@ -1,8 +1,6 @@
 module Api
   class AlbumsController < ApplicationController
     before_action :set_album, only: %i[show update destroy]
-    before_action :authenticate_user!, only: %i[create update destroy]
-    before_action :authorize_admin!, only: %i[create update destroy]
 
     # GET /albums
     def index

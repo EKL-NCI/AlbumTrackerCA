@@ -1,7 +1,7 @@
 class AuthController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  # POST /register
+  # POST /register 
   def register
     user = User.new(user_params)
     user.role ||= "user"

@@ -1,12 +1,11 @@
-module Api
-  class AlbumsController < ApplicationController
+class AlbumsController < ApplicationController
     skip_before_action :verify_authenticity_token
 
     before_action :set_album, only: %i[show update destroy]
     before_action :authenticate_user!, only: %i[create update destroy]
     before_action :authorize_admin!, only: %i[create update destroy]
 
-    # GET /api/albums
+    # GET /albums
     def index
       albums =
         if params[:q].present?
@@ -22,12 +21,12 @@ module Api
       render json: albums.map { |album| AlbumSerializer.new(album).as_json }
     end
 
-    # GET /api/albums/:id
+    # GET /albums/:id
     def show
       render json: AlbumSerializer.new(@album).as_json
     end
 
-    # POST /api/albums
+    # POST /albums
     def create
       album = Album.new(album_params)
       if album.save
@@ -37,7 +36,7 @@ module Api
       end
     end
 
-    # PUT /api/albums/:id
+    # PUT /albums/:id
     def update
       if @album.update(album_params)
         render json: AlbumSerializer.new(@album).as_json
@@ -46,7 +45,7 @@ module Api
       end
     end
 
-    # DELETE /api/albums/:id
+    # DELETE /albums/:id
     def destroy
       @album.destroy
       head :no_content

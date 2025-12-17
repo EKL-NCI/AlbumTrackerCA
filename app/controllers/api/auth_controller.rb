@@ -1,8 +1,7 @@
-module Api
-  class AuthController < ApplicationController
+class AuthController < ApplicationController
     skip_before_action :verify_authenticity_token
 
-    # POST /api/auth/register
+    # POST /auth/register
     def register
       user = User.new(user_params)
       user.role ||= "user"
@@ -24,7 +23,7 @@ module Api
       end
     end
 
-    # POST /api/auth/login
+    # POST /auth/login
     def login
       user = User.find_by(email: params[:email])
 

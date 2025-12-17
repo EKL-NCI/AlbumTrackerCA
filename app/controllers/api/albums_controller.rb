@@ -1,6 +1,7 @@
 module Api
   class AlbumsController < ApplicationController
     skip_before_action :verify_authenticity_token
+
     before_action :set_album, only: %i[show update destroy]
     before_action :authenticate_user!, only: %i[create update destroy]
     before_action :authorize_admin!, only: %i[create update destroy]
@@ -18,7 +19,7 @@ module Api
           Album.all
         end
 
-      render json: albums.map { |a| AlbumSerializer.new(a).as_json }
+      render json: albums.map { |album| AlbumSerializer.new(album).as_json }
     end
 
     # GET /api/albums/:id

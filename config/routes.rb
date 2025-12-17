@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-  # Authentication
-  post "register", to: "auth#register"
-  post "login", to: "auth#login"
+  namespace :api do
+    # Authentication
+    post "auth/register", to: "auth#register"
+    post "auth/login", to: "auth#login"
 
-  # Albums
-  resources :albums
+    # Albums
+    resources :albums
+  end
 
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check
+  root "rails/health#show"
 end

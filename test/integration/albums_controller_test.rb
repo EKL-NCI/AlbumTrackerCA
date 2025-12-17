@@ -45,7 +45,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get api_albums_url, headers: @headers
+    get "/api/albums", headers: @headers
     assert_response :success
 
     albums = JSON.parse(response.body)
@@ -53,7 +53,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
   end
 
   test "should show album" do
-    get api_album_url(@album1), headers: @headers
+    get "/api/albums/#{@album1.id}", headers: @headers
     assert_response :success
 
     album = JSON.parse(response.body)
@@ -73,7 +73,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
     }
 
     assert_difference("Album.count", 1) do
-      post api_albums_url, params: album_params.to_json, headers: @headers
+      post "/api/albums", params: album_params.to_json, headers: @headers
     end
 
     assert_response :created
@@ -87,7 +87,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
       }
     }
 
-    patch api_album_url(@album1), params: update_params.to_json, headers: @headers
+    patch "/api/albums/#{@album1.id}", params: update_params.to_json, headers: @headers
     assert_response :success
 
     @album1.reload
@@ -97,7 +97,7 @@ class ApiAlbumsTest < ActionDispatch::IntegrationTest
 
   test "should destroy album" do
     assert_difference("Album.count", -1) do
-      delete api_album_url(@album2), headers: @headers
+      delete "/api/albums/#{@album2.id}", headers: @headers
     end
 
     assert_response :no_content

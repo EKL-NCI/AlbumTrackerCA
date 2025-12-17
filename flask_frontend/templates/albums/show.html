@@ -4,7 +4,7 @@
 
 <div class="mb-3 text-center">
   {% if album.cover_image_url %}
-    <img src="{{ album.cover_image_url or url_for('static', filename='generic-album.png') }}" class="img-fluid">
+    <img src="{{ album.cover_image_url }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
   {% else %}
     <img src="{{ url_for('static', filename='generic-album.png') }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
   {% endif %}
@@ -24,10 +24,12 @@
 </p>
 
 <div class="mt-3">
-  <a href="/albums/{{ album.id }}/edit" class="btn btn-warning">Edit this album</a>
+  {% if session.get('user_role') == 'admin' %}
+    <a href="/albums/{{ album.id }}/edit" class="btn btn-warning">Edit this album</a>
+    <form action="/albums/{{ album.id }}/delete" method="post" style="display:inline;">
+      <button type="submit" class="btn btn-danger">Destroy this album</button>
+    </form>
+  {% endif %}
   <a href="/albums" class="btn btn-secondary">Back to albums</a>
-  <form action="/albums/{{ album.id }}/delete" method="post" style="display:inline;">
-    <button type="submit" class="btn btn-danger">Destroy this album</button>
-  </form>
 </div>
 {% endblock %}

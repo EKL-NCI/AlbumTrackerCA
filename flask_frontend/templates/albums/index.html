@@ -40,15 +40,16 @@
       </td>
       <td>
         <a href="{{ url_for('albums_show', album_id=album.id) }}" class="btn btn-sm btn-primary">Show</a>
-        <a href="{{ url_for('albums_edit', album_id=album.id) }}" class="btn btn-sm btn-warning">Edit</a>
-        <form action="{{ url_for('albums_delete', album_id=album.id) }}" method="post" style="display:inline;">
-          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-        </form>
+
+        {% if session.get('user_role') == 'admin' %}
+          <a href="{{ url_for('albums_edit', album_id=album.id) }}" class="btn btn-sm btn-warning">Edit</a>
+          <form action="{{ url_for('albums_delete', album_id=album.id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        {% endif %}
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-
-<a href="{{ url_for('albums_new') }}" class="btn btn-success mt-3">Add New Album</a>
 {% endblock %}

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>New Album</h1>
-{% set form_action = url_for('albums_create') %}
-{% include "albums/form.html" %}
+{% if session.get('user_role') == 'admin' %}
+  <h1>New Album</h1>
+  {% set form_action = url_for('albums_create') %}
+  {% include "albums/form.html" %}
+{% else %}
+  <p class="text-danger">You do not have permission to create albums.</p>
+{% endif %}
 <a href="{{ url_for('albums_index') }}" class="btn btn-secondary mt-3">Back</a>
 {% endblock %}
